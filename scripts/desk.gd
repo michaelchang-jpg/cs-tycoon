@@ -24,8 +24,8 @@ func get_chair_global_position() -> Vector2:
 		return chair_position.global_position
 	return global_position
 
-func assign_employee(name: String) -> void:
-	assigned_employee_name = name
+func assign_employee(emp_name: String) -> void:
+	assigned_employee_name = emp_name
 	is_occupied = true
 
 func vacate() -> void:
