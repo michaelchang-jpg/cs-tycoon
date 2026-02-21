@@ -1,8 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://main_scene_office"]
+[gd_scene load_steps=8 format=3 uid="uid://main_scene_office"]
 
 [ext_resource type="Script" path="res://scripts/employee.gd" id="1_employee"]
 [ext_resource type="Script" path="res://scripts/desk.gd" id="2_desk"]
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="3_manager"]
+[ext_resource type="Texture2D" uid="uid://asset_floor" path="res://assets/kenney_furniture-kit/Isometric/floorFull_NE.png" id="4_floor"]
+[ext_resource type="Texture2D" uid="uid://asset_desk" path="res://assets/kenney_furniture-kit/Isometric/desk_NE.png" id="5_desk"]
+[ext_resource type="Texture2D" uid="uid://asset_bear" path="res://assets/kenney_furniture-kit/Isometric/bear_NE.png" id="6_bear"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_employee"]
 size = Vector2(40, 40)
@@ -16,13 +19,17 @@ script = ExtResource("3_manager")
 [node name="World" type="Node2D" parent="."]
 y_sort_enabled = true
 
-[node name="FloorLayer" type="TileMapLayer" parent="World"]
+[node name="FloorLayer" type="Node2D" parent="World"]
 z_index = -1
-tile_set = null
 metadata/_edit_lock_ = true
 
-[node name="WallLayer" type="TileMapLayer" parent="World"]
-tile_set = null
+[node name="FloorSprite" type="Sprite2D" parent="World/FloorLayer"]
+texture_repeat = 2
+position = Vector2(576, 324)
+scale = Vector2(2, 2)
+texture = ExtResource("4_floor")
+region_enabled = true
+region_rect = Rect2(0, 0, 1000, 1000)
 
 [node name="Entities" type="Node2D" parent="World"]
 y_sort_enabled = true
@@ -34,19 +41,9 @@ script = ExtResource("2_desk")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Entities/Desk"]
 shape = SubResource("RectangleShape2D_desk_area")
 
-[node name="Visual" type="ColorRect" parent="World/Entities/Desk"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -50.0
-offset_top = -30.0
-offset_right = 50.0
-offset_bottom = 30.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.55, 0.35, 0.15, 1)
+[node name="Sprite" type="Sprite2D" parent="World/Entities/Desk"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_desk")
 
 [node name="ChairPosition" type="Marker2D" parent="World/Entities/Desk"]
 position = Vector2(0, 40)
@@ -58,19 +55,10 @@ script = ExtResource("1_employee")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Entities/Employee"]
 shape = SubResource("RectangleShape2D_employee")
 
-[node name="Sprite" type="ColorRect" parent="World/Entities/Employee"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.2, 0.6, 1, 1)
+[node name="Sprite" type="Sprite2D" parent="World/Entities/Employee"]
+position = Vector2(0, -10)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("6_bear")
 
 [node name="UI" type="CanvasLayer" parent="."]
 

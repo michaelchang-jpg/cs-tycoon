@@ -102,5 +102,5 @@ func _set_color(color: Color) -> void:
 	if sprite:
 		if sprite is ColorRect:
 			sprite.color = color
-		elif sprite is Sprite2D or sprite is CanvasItem:
+		elif sprite is Sprite2D:
 			sprite.modulate = color
