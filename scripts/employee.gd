@@ -126,5 +126,11 @@ func _handle_arrival():
 	if is_going_to_work:
 		is_going_to_work = false
 		_enter_state(State.WORKING)
+		
+		# --- 修正位置：強制瞬移到目標點 ---
+		# 這是為了避免他在「判定到達」時其實還差一點點距離
+		# 導致看起來沒有坐在正位上
+		global_position = target_position
+		
 	else:
 		_enter_state(State.IDLE)
