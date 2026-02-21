@@ -24,7 +24,7 @@ var stress: float = 0.0
 var fatigue: float = 0.0
 
 # --- 組件引用 ---
-@onready var sprite: Sprite2D = $Sprite
+@onready var sprite: Node2D = $Sprite
 @onready var state_timer: Timer = Timer.new()
 
 func _ready() -> void:
@@ -72,7 +72,11 @@ func _handle_roaming(_delta: float) -> void:
 		
 		# 視覺處理：轉向
 		if direction.x != 0:
-			sprite.flip_h = direction.x < 0
+			if sprite is Sprite2D:
+				sprite.flip_h = direction.x < 0
+			# 如果是 ColorRect 或其他 Node2D，可以用 scale.x 翻轉
+			elif sprite is Node2D:
+				sprite.scale.x = -1 if direction.x < 0 else 1
 			
 		move_and_slide()
 	else:
