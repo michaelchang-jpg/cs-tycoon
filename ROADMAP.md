@@ -23,4 +23,3 @@
 - [ ] 奧客與重大客訴 Boss 戰
 - [ ] **美術風格確立**: 採用 LimeZu Modern Office (16x16 Pixel Art) 風格。
 - [ ] 正式美術素材替換與打磨 (將 ColorRect 替換為 Sprite2D/AnimatedSprite2D)。
-
