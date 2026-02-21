@@ -1,26 +1,26 @@
-# CS Tycoon Development Roadmap
+# CS Tycoon (客服物語) 開發路線圖
 
-### 🏁 Phase 1: AI & Environment
-- [ ] Core AI State Machine (Roaming, Working, Resting)
-- [ ] Navigation & Boundaries
-- [ ] Interaction Points (Desks, Water Coolers)
+### 🏁 第一階段：AI 與環境基礎
+- [ ] 核心 AI 狀態機 (隨機散步、工作、休息邏輯)
+- [ ] 導航系統與辦公室邊界設定
+- [ ] 互動點實作 (辦公桌、飲水機)
 
-### 🧠 Phase 2: Stats & Work Loop
-- [ ] Staff Stats (EQ, Stress, Knowledge)
-- [ ] Ticket Generator
-- [ ] Economy System (Money for Upgrades)
+### 🧠 第二階段：數值與工作循環
+- [ ] 員工屬性系統 (EQ、壓力值、專業知識)
+- [ ] 工單自動產生器
+- [ ] 經濟系統 (賺取金錢以升級設備)
 
-### 📊 Phase 3: Management & UI
-- [ ] Main Dashboard
-- [ ] Recruitment System
+### 📊 第三階段：管理介面與 UI
+- [ ] 主控面板 (Dashboard)
+- [ ] 員工招募系統
 
-### 🏢 Phase 4: Office Decoration
-- [ ] Building Mode (Place Furniture)
-- [ ] Buff/Debuff Areas
+### 🏢 第四階段：辦公室佈置
+- [ ] 建設模式 (自由擺放家具)
+- [ ] 設施 Buff/Debuff 影響範圍
 
-### 🌟 Phase 5: Events & Polish
-- [ ] Escalation/Karen Boss Battles
-- [ ] Final Art Assets
+### 🌟 第五階段：事件與優化
+- [ ] 奧客與重大客訴 Boss 戰
+- [ ] 正式美術素材替換與打磨
 
 ---
-*Last Updated: 2026-02-21*
+*最後更新日期: 2026-02-21*
