@@ -24,7 +24,7 @@ var stress: float = 0.0
 var fatigue: float = 0.0
 
 # --- 組件引用 ---
-@onready var sprite: Node2D = $Sprite
+@onready var sprite = $Sprite
 @onready var state_timer: Timer = Timer.new()
 
 func _ready() -> void:
