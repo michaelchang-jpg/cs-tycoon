@@ -58,11 +58,16 @@ func _enter_state(new_state: State) -> void:
 			state_timer.start(randf_range(idle_duration.x, idle_duration.y))
 		
 		State.ROAMING:
-			# 在當前位置周圍選一個隨機點
-			target_position = global_position + Vector2(
-				randf_range(-roam_radius, roam_radius),
-				randf_range(-roam_radius, roam_radius)
-			)
+			# 如果是有明確目的地的移動 (is_going_to_work)，就不要隨機選點
+			if is_going_to_work:
+				# 保持原本 assign_to_desk 設定的 target_position
+				pass
+			else:
+				# 否則：在當前位置周圍選一個隨機點
+				target_position = global_position + Vector2(
+					randf_range(-roam_radius, roam_radius),
+					randf_range(-roam_radius, roam_radius)
+				)
 			# 確保目標在視窗內 (此處可根據辦公室邊界微調)
 		
 		State.WORKING:
