@@ -61,8 +61,14 @@ func _enter_state(new_state: State) -> void:
 			# 確保目標在視窗內 (此處可根據辦公室邊界微調)
 		
 		State.WORKING:
-			# 未來實作：走到桌子旁邊並坐下
-			pass
+			# 進入工作狀態：停止移動
+			velocity = Vector2.ZERO
+			# 如果是 ColorRect，可以變色表示在工作
+			if sprite is ColorRect:
+				sprite.color = Color(1, 0.5, 0.5) # 變成紅色表示忙碌
+			
+			# 設定工作計時器 (模擬處理工單)
+			state_timer.start(randf_range(3.0, 5.0))
 
 # --- 核心行為處理 ---
 func _handle_roaming(_delta: float) -> void:
@@ -80,21 +86,41 @@ func _handle_roaming(_delta: float) -> void:
 			
 		move_and_slide()
 	else:
-		_enter_state(State.IDLE)
+		# 到達目的地後
+		_handle_arrival()
 
 func _handle_working(delta: float) -> void:
 	# 工作時壓力上升
-	stress += 1.0 * delta
-	if stress >= max_stress:
-		_enter_state(State.RESTING)
+	stress += 5.0 * delta # 壓力上升加快
+	
+	# 這裡不再用 stress >= max_stress 強制休息，而是依賴 Timer 結束工作循環
+	# 當然也可以保留壓力爆炸機制
 
 # --- 信號處理 ---
 func _on_timer_timeout() -> void:
 	if current_state == State.IDLE:
 		_enter_state(State.ROAMING)
+	elif current_state == State.WORKING:
+		# 工作結束，變回閒晃或休息
+		if sprite is ColorRect:
+			sprite.color = Color(0.2, 0.6, 1) # 變回藍色
+		_enter_state(State.IDLE)
 
 # --- 公有方法 (供管理系統呼叫) ---
 func assign_to_desk(desk_pos: Vector2) -> void:
 	target_position = desk_pos
+	# 特殊處理：我們需要一個標記知道這是「去工作」的移動
+	# 這裡簡單處理：先切換到 ROAMING 讓他走過去
+	# 但我們需要改寫 _handle_roaming 的「到達邏輯」
+	# 為了不把代碼弄太複雜，我們先直接用一個變數標記
+	is_going_to_work = true
 	_enter_state(State.ROAMING)
-	# 到達後觸發工作狀態的邏輯可在此擴充
+
+var is_going_to_work = false
+
+func _handle_arrival():
+	if is_going_to_work:
+		is_going_to_work = false
+		_enter_state(State.WORKING)
+	else:
+		_enter_state(State.IDLE)

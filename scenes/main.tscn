@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://main_scene_office"]
+[gd_scene load_steps=6 format=3 uid="uid://main_scene_office"]
 
 [ext_resource type="Script" path="res://scripts/employee.gd" id="1_employee"]
+[ext_resource type="Script" path="res://scripts/desk.gd" id="2_desk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
 size = Vector2(1152, 20)
@@ -10,6 +11,9 @@ size = Vector2(20, 648)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_employee"]
 size = Vector2(40, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_desk_area"]
+size = Vector2(100, 80)
 
 [node name="Main" type="Node2D"]
 
@@ -44,6 +48,30 @@ offset_right = 1152.0
 offset_bottom = 648.0
 color = Color(0.18, 0.2, 0.25, 1)
 metadata/_edit_lock_ = true
+
+[node name="Desk" type="Area2D" parent="."]
+position = Vector2(300, 300)
+script = ExtResource("2_desk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Desk"]
+shape = SubResource("RectangleShape2D_desk_area")
+
+[node name="Visual" type="ColorRect" parent="Desk"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -30.0
+offset_right = 50.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.55, 0.35, 0.15, 1)
+
+[node name="ChairPosition" type="Marker2D" parent="Desk"]
+position = Vector2(0, 40)
 
 [node name="Employee" type="CharacterBody2D" parent="."]
 position = Vector2(576, 324)
