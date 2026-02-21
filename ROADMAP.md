@@ -17,10 +17,10 @@
 ### 🏢 第四階段：辦公室佈置
 - [ ] 建設模式 (自由擺放家具)
 - [ ] 設施 Buff/Debuff 影響範圍
+- [ ] **Godot 4.6 優化**: 使用 `TileMapLayer` 提升辦公室地圖效能，並開啟 2D Transform 插值以優化小人移動流暢度。
 
 ### 🌟 第五階段：事件與優化
 - [ ] 奧客與重大客訴 Boss 戰
-- [ ] 正式美術素材替換與打磨
+- [ ] **美術風格確立**: 採用 LimeZu Modern Office (16x16 Pixel Art) 風格。
+- [ ] 正式美術素材替換與打磨 (將 ColorRect 替換為 Sprite2D/AnimatedSprite2D)。
 
----
-*最後更新日期: 2026-02-21*

@@ -4,12 +4,6 @@
 [ext_resource type="Script" path="res://scripts/desk.gd" id="2_desk"]
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="3_manager"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
-size = Vector2(1152, 20)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v"]
-size = Vector2(20, 648)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_employee"]
 size = Vector2(40, 40)
 
@@ -19,46 +13,28 @@ size = Vector2(100, 80)
 [node name="Main" type="Node2D"]
 script = ExtResource("3_manager")
 
-[node name="Walls" type="Node2D" parent="."]
+[node name="World" type="Node2D" parent="."]
+y_sort_enabled = true
 
-[node name="TopWall" type="StaticBody2D" parent="Walls"]
-position = Vector2(576, -10)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/TopWall"]
-shape = SubResource("RectangleShape2D_wall_h")
-
-[node name="BottomWall" type="StaticBody2D" parent="Walls"]
-position = Vector2(576, 658)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/BottomWall"]
-shape = SubResource("RectangleShape2D_wall_h")
-
-[node name="LeftWall" type="StaticBody2D" parent="Walls"]
-position = Vector2(-10, 324)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/LeftWall"]
-shape = SubResource("RectangleShape2D_wall_v")
-
-[node name="RightWall" type="StaticBody2D" parent="Walls"]
-position = Vector2(1162, 324)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/RightWall"]
-shape = SubResource("RectangleShape2D_wall_v")
-
-[node name="Background" type="ColorRect" parent="."]
-offset_right = 1152.0
-offset_bottom = 648.0
-color = Color(0.18, 0.2, 0.25, 1)
+[node name="FloorLayer" type="TileMapLayer" parent="World"]
+z_index = -1
+tile_set = null
 metadata/_edit_lock_ = true
 
-[node name="Desk" type="Area2D" parent="."]
+[node name="WallLayer" type="TileMapLayer" parent="World"]
+tile_set = null
+
+[node name="Entities" type="Node2D" parent="World"]
+y_sort_enabled = true
+
+[node name="Desk" type="Area2D" parent="World/Entities"]
 position = Vector2(300, 300)
 script = ExtResource("2_desk")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Desk"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Entities/Desk"]
 shape = SubResource("RectangleShape2D_desk_area")
 
-[node name="Visual" type="ColorRect" parent="Desk"]
+[node name="Visual" type="ColorRect" parent="World/Entities/Desk"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -72,17 +48,17 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.55, 0.35, 0.15, 1)
 
-[node name="ChairPosition" type="Marker2D" parent="Desk"]
+[node name="ChairPosition" type="Marker2D" parent="World/Entities/Desk"]
 position = Vector2(0, 40)
 
-[node name="Employee" type="CharacterBody2D" parent="."]
+[node name="Employee" type="CharacterBody2D" parent="World/Entities"]
 position = Vector2(576, 324)
 script = ExtResource("1_employee")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Employee"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Entities/Employee"]
 shape = SubResource("RectangleShape2D_employee")
 
-[node name="Sprite" type="ColorRect" parent="Employee"]
+[node name="Sprite" type="ColorRect" parent="World/Entities/Employee"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -131,4 +107,3 @@ text = "公司資產: $0"
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "最新結案: 無"
-

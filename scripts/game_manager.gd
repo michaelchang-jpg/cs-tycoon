@@ -4,7 +4,7 @@ extends Node2D
 ## 修正：正確的 UI 節點路徑與資產更新邏輯
 
 var total_money: int = 0
-@onready var employee: Employee = $Employee 
+@onready var employee: Employee = $World/Entities/Employee 
 
 # --- UI 引用 (路徑與 main.tscn 保持一致) ---
 @onready var money_label: Label = $UI/Control/PanelContainer/MarginContainer/VBoxContainer/MoneyLabel
