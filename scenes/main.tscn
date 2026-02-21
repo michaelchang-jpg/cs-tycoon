@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/employee.gd" id="1_employee"]
 [ext_resource type="Script" path="res://scripts/desk.gd" id="2_desk"]
+[ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_manager"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
 size = Vector2(1152, 20)
@@ -16,6 +17,7 @@ size = Vector2(40, 40)
 size = Vector2(100, 80)
 
 [node name="Main" type="Node2D"]
+script = ExtResource("1_manager")
 
 [node name="Walls" type="Node2D" parent="."]
 

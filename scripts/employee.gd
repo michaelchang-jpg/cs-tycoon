@@ -22,6 +22,11 @@ var current_state: State = State.IDLE
 var target_position: Vector2 = Vector2.ZERO
 var stress: float = 0.0
 var fatigue: float = 0.0
+var current_ticket: Ticket = null # 當前正在處理的工單
+
+# --- 信號定義 ---
+signal money_earned(amount: int)
+signal ticket_completed(ticket_title: String)
 
 # --- 組件引用 ---
 @onready var sprite = $Sprite
@@ -103,8 +108,12 @@ func _handle_roaming(_delta: float) -> void:
 		_handle_arrival()
 
 func _handle_working(delta: float) -> void:
-	# 工作時壓力上升
-	stress += 5.0 * delta # 壓力上升加快
+	# 工作時壓力上升 (根據工單的壓力係數)
+	var stress_factor = 1.0
+	if current_ticket:
+		stress_factor = current_ticket.stress_impact / 5.0
+		
+	stress += (5.0 * stress_factor) * delta 
 	
 	# 這裡不再用 stress >= max_stress 強制休息，而是依賴 Timer 結束工作循環
 	# 當然也可以保留壓力爆炸機制
@@ -114,7 +123,14 @@ func _on_timer_timeout() -> void:
 	if current_state == State.IDLE:
 		_enter_state(State.ROAMING)
 	elif current_state == State.WORKING:
-		# 工作結束，變回閒晃或休息
+		# 工作結束 (工單完成)
+		if current_ticket:
+			money_earned.emit(current_ticket.reward)
+			ticket_completed.emit(current_ticket.title)
+			# print("工單完成！獲得獎金: ", current_ticket.reward)
+			current_ticket = null # 清空工單
+			
+		# 變回閒晃或休息
 		if sprite is ColorRect:
 			sprite.color = Color(0.2, 0.6, 1) # 變回藍色
 		_enter_state(State.IDLE)
