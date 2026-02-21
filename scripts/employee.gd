@@ -74,6 +74,9 @@ func _enter_state(new_state: State) -> void:
 			
 			# 設定工作計時器 (模擬處理工單)
 			state_timer.start(randf_range(3.0, 5.0))
+			
+	# --- Debug: 印出狀態切換 ---
+	# print("State changed to: ", State.keys()[current_state], " Target: ", target_position)
 
 # --- 核心行為處理 ---
 func _handle_roaming(_delta: float) -> void:
@@ -114,10 +117,6 @@ func _on_timer_timeout() -> void:
 # --- 公有方法 (供管理系統呼叫) ---
 func assign_to_desk(desk_pos: Vector2) -> void:
 	target_position = desk_pos
-	# 特殊處理：我們需要一個標記知道這是「去工作」的移動
-	# 這裡簡單處理：先切換到 ROAMING 讓他走過去
-	# 但我們需要改寫 _handle_roaming 的「到達邏輯」
-	# 為了不把代碼弄太複雜，我們先直接用一個變數標記
 	is_going_to_work = true
 	_enter_state(State.ROAMING)
 
