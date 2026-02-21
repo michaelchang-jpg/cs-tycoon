@@ -35,6 +35,11 @@ func _ready() -> void:
 	
 	# 初始狀態設定
 	_enter_state(State.IDLE)
+	
+	# --- 測試用：讓員工一出生就去上班 ---
+	# (注意：這裡的座標是場景中 Desk 下的 ChairPosition 位置)
+	await get_tree().create_timer(1.0).timeout # 等個 1 秒再出發，看起來更有趣
+	assign_to_desk(Vector2(300, 340))
 
 func _physics_process(delta: float) -> void:
 	match current_state:
