@@ -1,0 +1,8 @@
+config_version=5
+
+[application]
+
+config/name="CS Tycoon"
+config/description="A Kairo-like simulation game about customer service life."
+run/main_scene="res://scenes/main.tscn"
+config/features=PackedStringArray("4.3", "Forward Plus")
