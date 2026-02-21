@@ -11,6 +11,7 @@ var total_money: int = 0
 @onready var ticket_label: Label = $UI/Control/PanelContainer/MarginContainer/VBoxContainer/TicketLabel
 
 func _ready() -> void:
+	print("🚀 GameManager 啟動成功！")
 	# 初始化 UI
 	update_ui()
 	
