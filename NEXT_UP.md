@@ -1,7 +1,7 @@
 # NEXT UP (No-Approval Needed Batch)
 
 ## Ready now
-- [ ] 導入 NavigationRegion2D + NavigationAgent2D（替換 clamp）
+- [~] 導入 NavigationRegion2D + NavigationAgent2D（骨架已完成，待切換為預設路徑）
 - [ ] 把 `Ticket` 與 `JobGenerator` 合併為單一任務管線
 - [ ] 多員工最小實作（2 名員工 + 獨立壓力）
 - [ ] 行為動畫占位（工作、喝水）

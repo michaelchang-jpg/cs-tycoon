@@ -35,7 +35,13 @@
 - `TECH_DEBT.md` (new)
 - `PLAN.md` (new)
 
+## 🔧 Additional Progress (2026-02-26, batch-2)
+- `main.tscn` 新增 `NavigationRegion2D` 與 `NavigationPolygon`（辦公室可走區域）
+- `Employee` 新增 `NavigationAgent2D` 節點
+- `employee.gd` 新增 `use_navigation_agent` feature flag（預設關閉，避免影響現有驗收）
+- 已支援在相同行為迴圈中切換：`clamp mode` / `navigation mode`
+
 ## ⏭️ Next Actions
-1. 由 clamp 邊界升級為 NavigationAgent2D 真導航。
+1. 在你驗收完穩定版後，將 `use_navigation_agent` 設為預設 true 並調路徑參數。
 2. 多員工化（抽離 agent controller）。
 3. 將 Stats / JobGenerator 正式綁定工單難度與成功率。

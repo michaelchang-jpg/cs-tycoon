@@ -6,6 +6,7 @@ enum State { IDLE, WALKING_TO_DESK, WORKING, WALKING_TO_COOLER, DRINKING }
 
 @export var speed: float = 180.0
 @export var arrive_distance: float = 8.0
+@export var use_navigation_agent: bool = false
 @export var walkable_bounds: Rect2 = Rect2(140, 140, 860, 380)
 @export var stress_increase_per_sec: float = 10.0
 @export var stress_reduce_per_sec: float = 18.0
@@ -25,12 +26,15 @@ signal stress_changed(value: float)
 signal state_changed(text: String)
 
 @onready var sprite: Sprite2D = $Sprite
+@onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var state_timer: Timer = Timer.new()
 
 func _ready() -> void:
 	add_child(state_timer)
 	state_timer.one_shot = true
 	state_timer.timeout.connect(_on_state_timer_timeout)
+	navigation_agent.path_desired_distance = 4.0
+	navigation_agent.target_desired_distance = arrive_distance
 	_enter_state(State.IDLE)
 
 func setup_points(desk_pos: Vector2, cooler_pos: Vector2) -> void:
@@ -65,6 +69,7 @@ func _enter_state(new_state: State) -> void:
 			sprite.modulate = Color(0.9, 0.9, 1.0)
 		State.WALKING_TO_DESK:
 			target_position = desk_position
+			_set_navigation_target_if_needed()
 			state_changed.emit("前往辦公桌")
 			sprite.modulate = Color(0.7, 0.9, 1.0)
 		State.WORKING:
@@ -74,6 +79,7 @@ func _enter_state(new_state: State) -> void:
 			state_timer.start(randf_range(work_duration_min, work_duration_max))
 		State.WALKING_TO_COOLER:
 			target_position = cooler_position
+			_set_navigation_target_if_needed()
 			state_changed.emit("前往飲水機")
 			sprite.modulate = Color(0.7, 1.0, 0.8)
 		State.DRINKING:
@@ -83,18 +89,28 @@ func _enter_state(new_state: State) -> void:
 			state_timer.start(randf_range(drink_duration_min, drink_duration_max))
 
 func _handle_movement() -> void:
-	var direction := target_position - global_position
+	var next_target := target_position
+	if use_navigation_agent and navigation_agent:
+		next_target = navigation_agent.get_next_path_position()
+
+	var direction := next_target - global_position
 	if direction.length() > arrive_distance:
 		velocity = direction.normalized() * speed
 		move_and_slide()
-		global_position = _clamp_to_bounds(global_position)
+		if not use_navigation_agent:
+			global_position = _clamp_to_bounds(global_position)
 	else:
 		velocity = Vector2.ZERO
-		global_position = _clamp_to_bounds(target_position)
+		if not use_navigation_agent:
+			global_position = _clamp_to_bounds(target_position)
 		if current_state == State.WALKING_TO_DESK:
 			_enter_state(State.WORKING)
 		elif current_state == State.WALKING_TO_COOLER:
 			_enter_state(State.DRINKING)
+
+func _set_navigation_target_if_needed() -> void:
+	if use_navigation_agent and navigation_agent:
+		navigation_agent.target_position = target_position
 
 func _on_state_timer_timeout() -> void:
 	_enter_state(State.IDLE)

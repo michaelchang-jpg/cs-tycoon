@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://main_scene_office"]
+[gd_scene load_steps=12 format=3 uid="uid://main_scene_office"]
 
 [ext_resource type="Script" path="res://scripts/employee.gd" id="1_employee"]
 [ext_resource type="Script" path="res://scripts/desk.gd" id="2_desk"]
@@ -19,11 +19,18 @@ size = Vector2(100, 80)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cooler_area"]
 size = Vector2(80, 80)
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_office"]
+vertices = PackedVector2Array(140, 140, 1000, 140, 1000, 520, 140, 520)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+
 [node name="Main" type="Node2D"]
 script = ExtResource("3_manager")
 
 [node name="World" type="Node2D" parent="."]
 y_sort_enabled = true
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="World"]
+navigation_polygon = SubResource("NavigationPolygon_office")
 
 [node name="FloorLayer" type="Node2D" parent="World"]
 z_index = -1
@@ -71,6 +78,11 @@ position = Vector2(-20, 28)
 [node name="Employee" type="CharacterBody2D" parent="World/Entities"]
 position = Vector2(576, 324)
 script = ExtResource("1_employee")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="World/Entities/Employee"]
+path_desired_distance = 4.0
+target_desired_distance = 8.0
+radius = 12.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Entities/Employee"]
 shape = SubResource("RectangleShape2D_employee")
