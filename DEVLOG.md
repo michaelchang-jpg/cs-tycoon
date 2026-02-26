@@ -41,7 +41,12 @@
 - `employee.gd` 新增 `use_navigation_agent` feature flag（預設關閉，避免影響現有驗收）
 - 已支援在相同行為迴圈中切換：`clamp mode` / `navigation mode`
 
+## 🔧 Additional Progress (2026-02-26, batch-3)
+- 多員工骨架上線：`main.tscn` 新增 `DeskB`、`EmployeeB`
+- `game_manager.gd` 改為管理 `employees[]`，支援每位員工獨立 action cooldown
+- UI 改顯示整體摘要（工作中人數、平均壓力、高壓人數）
+
 ## ⏭️ Next Actions
 1. 在你驗收完穩定版後，將 `use_navigation_agent` 設為預設 true 並調路徑參數。
-2. 多員工化（抽離 agent controller）。
+2. 多員工化（抽離 agent controller / 招募成本 / 上限管理）。
 3. 將 Stats / JobGenerator 正式綁定工單難度與成功率。

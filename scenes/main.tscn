@@ -61,6 +61,20 @@ texture = ExtResource("5_desk")
 [node name="ChairPosition" type="Marker2D" parent="World/Entities/Desk"]
 position = Vector2(0, 40)
 
+[node name="DeskB" type="Area2D" parent="World/Entities"]
+position = Vector2(520, 300)
+script = ExtResource("2_desk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Entities/DeskB"]
+shape = SubResource("RectangleShape2D_desk_area")
+
+[node name="Sprite" type="Sprite2D" parent="World/Entities/DeskB"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_desk")
+
+[node name="ChairPosition" type="Marker2D" parent="World/Entities/DeskB"]
+position = Vector2(0, 40)
+
 [node name="WaterCooler" type="Area2D" parent="World/Entities"]
 position = Vector2(780, 320)
 script = ExtResource("7_cooler_script")
@@ -91,6 +105,24 @@ shape = SubResource("RectangleShape2D_employee")
 position = Vector2(0, -10)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("6_bear")
+
+[node name="EmployeeB" type="CharacterBody2D" parent="World/Entities"]
+position = Vector2(636, 324)
+script = ExtResource("1_employee")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="World/Entities/EmployeeB"]
+path_desired_distance = 4.0
+target_desired_distance = 8.0
+radius = 12.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Entities/EmployeeB"]
+shape = SubResource("RectangleShape2D_employee")
+
+[node name="Sprite" type="Sprite2D" parent="World/Entities/EmployeeB"]
+position = Vector2(0, -10)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("6_bear")
+modulate = Color(0.92, 1, 0.92, 1)
 
 [node name="UI" type="CanvasLayer" parent="."]
 
