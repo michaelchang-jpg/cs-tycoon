@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://main_scene_office"]
+[gd_scene load_steps=10 format=3 uid="uid://main_scene_office"]
 
 [ext_resource type="Script" path="res://scripts/employee.gd" id="1_employee"]
 [ext_resource type="Script" path="res://scripts/desk.gd" id="2_desk"]
@@ -6,12 +6,17 @@
 [ext_resource type="Texture2D" uid="uid://asset_floor" path="res://assets/kenney_furniture-kit/Isometric/floorFull_NE.png" id="4_floor"]
 [ext_resource type="Texture2D" uid="uid://asset_desk" path="res://assets/kenney_furniture-kit/Isometric/desk_NE.png" id="5_desk"]
 [ext_resource type="Texture2D" uid="uid://asset_bear" path="res://assets/kenney_furniture-kit/Isometric/bear_NE.png" id="6_bear"]
+[ext_resource type="Script" path="res://scripts/water_cooler.gd" id="7_cooler_script"]
+[ext_resource type="Texture2D" path="res://assets/kenney_furniture-kit/Isometric/kitchenFridgeSmall_NE.png" id="8_cooler_tex"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_employee"]
 size = Vector2(40, 40)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_desk_area"]
 size = Vector2(100, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cooler_area"]
+size = Vector2(80, 80)
 
 [node name="Main" type="Node2D"]
 script = ExtResource("3_manager")
@@ -35,7 +40,7 @@ region_rect = Rect2(0, 0, 1000, 1000)
 y_sort_enabled = true
 
 [node name="Desk" type="Area2D" parent="World/Entities"]
-position = Vector2(300, 300)
+position = Vector2(360, 300)
 script = ExtResource("2_desk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Entities/Desk"]
@@ -47,6 +52,20 @@ texture = ExtResource("5_desk")
 
 [node name="ChairPosition" type="Marker2D" parent="World/Entities/Desk"]
 position = Vector2(0, 40)
+
+[node name="WaterCooler" type="Area2D" parent="World/Entities"]
+position = Vector2(780, 320)
+script = ExtResource("7_cooler_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Entities/WaterCooler"]
+shape = SubResource("RectangleShape2D_cooler_area")
+
+[node name="Sprite" type="Sprite2D" parent="World/Entities/WaterCooler"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("8_cooler_tex")
+
+[node name="StandPosition" type="Marker2D" parent="World/Entities/WaterCooler"]
+position = Vector2(-20, 28)
 
 [node name="Employee" type="CharacterBody2D" parent="World/Entities"]
 position = Vector2(576, 324)
@@ -74,8 +93,8 @@ grow_vertical = 2
 layout_mode = 0
 offset_left = 20.0
 offset_top = 20.0
-offset_right = 220.0
-offset_bottom = 86.0
+offset_right = 260.0
+offset_bottom = 130.0
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/Control/PanelContainer"]
 layout_mode = 2
@@ -94,4 +113,12 @@ text = "公司資產: $0"
 [node name="TicketLabel" type="Label" parent="UI/Control/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
-text = "最新結案: 無"
+text = "今日產能: --"
+
+[node name="StressLabel" type="Label" parent="UI/Control/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "壓力值: 0 / 100"
+
+[node name="ActionLabel" type="Label" parent="UI/Control/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "目前行為: 待命"
