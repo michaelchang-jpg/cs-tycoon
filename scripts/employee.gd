@@ -9,6 +9,11 @@ enum State { IDLE, WALKING_TO_DESK, WORKING, WALKING_TO_COOLER, DRINKING }
 @export var walkable_bounds: Rect2 = Rect2(140, 140, 860, 380)
 @export var stress_increase_per_sec: float = 10.0
 @export var stress_reduce_per_sec: float = 18.0
+@export var stress_to_drink_threshold: float = 65.0
+@export var work_duration_min: float = 3.0
+@export var work_duration_max: float = 5.0
+@export var drink_duration_min: float = 2.0
+@export var drink_duration_max: float = 4.0
 
 var current_state: State = State.IDLE
 var target_position: Vector2 = Vector2.ZERO
@@ -45,7 +50,7 @@ func pick_next_action() -> void:
 	if current_state != State.IDLE:
 		return
 
-	if stress >= 65.0:
+	if stress >= stress_to_drink_threshold:
 		_enter_state(State.WALKING_TO_COOLER)
 	else:
 		_enter_state(State.WALKING_TO_DESK)
@@ -66,7 +71,7 @@ func _enter_state(new_state: State) -> void:
 			velocity = Vector2.ZERO
 			state_changed.emit("工作中")
 			sprite.modulate = Color(1.0, 0.65, 0.65)
-			state_timer.start(randf_range(3.0, 5.0))
+			state_timer.start(randf_range(work_duration_min, work_duration_max))
 		State.WALKING_TO_COOLER:
 			target_position = cooler_position
 			state_changed.emit("前往飲水機")
@@ -75,7 +80,7 @@ func _enter_state(new_state: State) -> void:
 			velocity = Vector2.ZERO
 			state_changed.emit("喝水中")
 			sprite.modulate = Color(0.6, 1.0, 0.6)
-			state_timer.start(randf_range(2.0, 4.0))
+			state_timer.start(randf_range(drink_duration_min, drink_duration_max))
 
 func _handle_movement() -> void:
 	var direction := target_position - global_position

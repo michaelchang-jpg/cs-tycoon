@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://main_scene_office"]
+[gd_scene load_steps=11 format=3 uid="uid://main_scene_office"]
 
 [ext_resource type="Script" path="res://scripts/employee.gd" id="1_employee"]
 [ext_resource type="Script" path="res://scripts/desk.gd" id="2_desk"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://asset_bear" path="res://assets/kenney_furniture-kit/Isometric/bear_NE.png" id="6_bear"]
 [ext_resource type="Script" path="res://scripts/water_cooler.gd" id="7_cooler_script"]
 [ext_resource type="Texture2D" path="res://assets/kenney_furniture-kit/Isometric/kitchenFridgeSmall_NE.png" id="8_cooler_tex"]
+[ext_resource type="Script" path="res://scripts/debug_overlay.gd" id="9_debug"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_employee"]
 size = Vector2(40, 40)
@@ -122,3 +123,39 @@ text = "壓力值: 0 / 100"
 [node name="ActionLabel" type="Label" parent="UI/Control/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "目前行為: 待命"
+
+[node name="DebugOverlay" type="CanvasLayer" parent="."]
+script = ExtResource("9_debug")
+target_path = NodePath("../World/Entities/Employee")
+
+[node name="PanelContainer" type="PanelContainer" parent="DebugOverlay"]
+offset_left = 20.0
+offset_top = 150.0
+offset_right = 310.0
+offset_bottom = 260.0
+
+[node name="MarginContainer" type="MarginContainer" parent="DebugOverlay/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DebugOverlay/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="StateLabel" type="Label" parent="DebugOverlay/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "State: --"
+
+[node name="PosLabel" type="Label" parent="DebugOverlay/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Pos: --"
+
+[node name="TargetLabel" type="Label" parent="DebugOverlay/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Target: --"
+
+[node name="StressRateLabel" type="Label" parent="DebugOverlay/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Stress Δ/s: --"

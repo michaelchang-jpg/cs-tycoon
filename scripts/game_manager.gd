@@ -9,15 +9,20 @@ extends Node2D
 @onready var stress_label: Label = $UI/Control/PanelContainer/MarginContainer/VBoxContainer/StressLabel
 @onready var action_label: Label = $UI/Control/PanelContainer/MarginContainer/VBoxContainer/ActionLabel
 
+@onready var job_generator: JobGenerator = JobGenerator.new()
+var stats: EmployeeStats = EmployeeStats.new()
+
 var total_money: int = 0
 var action_cooldown: float = 0.0
 
 func _ready() -> void:
 	randomize()
+	add_child(job_generator)
 	employee.setup_points(desk.get_chair_global_position(), water_cooler.get_stand_global_position())
 	employee.stress_changed.connect(_on_stress_changed)
 	employee.state_changed.connect(_on_state_changed)
-	_update_money(0)
+	stats.stress = employee.stress
+	_update_money(0.0)
 	_on_stress_changed(employee.stress)
 	_on_state_changed("待命")
 
@@ -31,14 +36,16 @@ func _process(delta: float) -> void:
 		action_cooldown = 0.0
 
 	if employee.current_state == Employee.State.WORKING:
-		_update_money(delta * 12)
+		var income := job_generator.get_income_per_second(employee.stress)
+		_update_money(delta * income)
 
 func _update_money(add_amount: float) -> void:
 	total_money += int(add_amount)
 	money_label.text = "公司資產: $%d" % total_money
-	ticket_label.text = "今日產能: +$12 / 秒（工作中）"
+	ticket_label.text = job_generator.get_label(employee.stress)
 
 func _on_stress_changed(value: float) -> void:
+	stats.stress = value
 	stress_label.text = "壓力值: %d / 100" % int(value)
 
 func _on_state_changed(text: String) -> void:
