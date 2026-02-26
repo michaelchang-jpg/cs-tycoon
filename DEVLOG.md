@@ -18,6 +18,10 @@
   - `TEST_FLOW.md`：固定 2 分鐘回歸流程
   - `ASSET_NAMING.md`：素材命名與路徑規範草案
   - `TECH_DEBT.md`：技術債分級清單
+  - `ARCHITECTURE.md`：目前系統拓樸與過渡設計說明
+  - `NEXT_UP.md`：可無審批先做的 backlog 批次
+- **工程便利性**
+  - `project.godot` 補上 `ui_debug_toggle`（F3）
 
 ## 📁 Files Changed
 - `scenes/main.tscn`
