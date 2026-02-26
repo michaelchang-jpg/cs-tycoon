@@ -43,10 +43,11 @@ func _collect_employees() -> void:
 		if child is Employee:
 			employee_pool.append(child)
 
-	employee_pool.sort_custom(func(a: Employee, b: Employee) -> bool:
-		return a.name < b.name
-	)
-	active_employee_count = int(clamp(active_employee_count, 1, employee_pool.size()))
+	# 保持原場景節點順序，避免 sort_custom callable 在不同設定下造成初始化中斷
+	if employee_pool.is_empty():
+		active_employee_count = 0
+	else:
+		active_employee_count = int(clamp(active_employee_count, 1, employee_pool.size()))
 	_rebuild_active_employees()
 
 func _setup_employees() -> void:
