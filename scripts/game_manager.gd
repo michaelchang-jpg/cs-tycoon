@@ -46,7 +46,7 @@ func _collect_employees() -> void:
 	employee_pool.sort_custom(func(a: Employee, b: Employee) -> bool:
 		return a.name < b.name
 	)
-	active_employee_count = clampi(active_employee_count, 1, employee_pool.size())
+	active_employee_count = int(clamp(active_employee_count, 1, employee_pool.size()))
 	_rebuild_active_employees()
 
 func _setup_employees() -> void:
@@ -125,7 +125,7 @@ func _refresh_ui_summary() -> void:
 
 func _build_recruit_text() -> String:
 	var active_count: int = employees.size()
-	var capacity: int = mini(recruit_policy.employee_capacity, employee_pool.size())
+	var capacity: int = int(min(recruit_policy.employee_capacity, employee_pool.size()))
 	if active_count >= capacity:
 		return "招募: 已滿編 (%d/%d)" % [active_count, capacity]
 
@@ -134,7 +134,7 @@ func _build_recruit_text() -> String:
 
 func _refresh_recruit_button() -> void:
 	var active_count: int = employees.size()
-	var capacity: int = mini(recruit_policy.employee_capacity, employee_pool.size())
+	var capacity: int = int(min(recruit_policy.employee_capacity, employee_pool.size()))
 	if active_count >= capacity:
 		recruit_button.disabled = true
 		recruit_button.text = "已滿編"
@@ -146,7 +146,7 @@ func _refresh_recruit_button() -> void:
 
 func _on_recruit_pressed() -> void:
 	var active_count: int = employees.size()
-	var capacity: int = mini(recruit_policy.employee_capacity, employee_pool.size())
+	var capacity: int = int(min(recruit_policy.employee_capacity, employee_pool.size()))
 	if active_count >= capacity:
 		action_label.text = "目前行為: 招募失敗（已滿編）"
 		_refresh_recruit_button()
