@@ -9,11 +9,13 @@ extends Node2D
 @onready var ticket_label: Label = $UI/Control/PanelContainer/MarginContainer/VBoxContainer/TicketLabel
 @onready var stress_label: Label = $UI/Control/PanelContainer/MarginContainer/VBoxContainer/StressLabel
 @onready var action_label: Label = $UI/Control/PanelContainer/MarginContainer/VBoxContainer/ActionLabel
+@onready var recruit_label: Label = $UI/Control/PanelContainer/MarginContainer/VBoxContainer/RecruitLabel
 
 @onready var job_generator: JobGenerator = JobGenerator.new()
 var employee_stats: Dictionary = {}
 var employees: Array[Employee] = []
 var action_cooldowns: Dictionary = {}
+var recruit_policy: RecruitmentPolicy = RecruitmentPolicy.new()
 
 var total_money: int = 0
 
@@ -73,6 +75,7 @@ func _refresh_ui_summary() -> void:
 		ticket_label.text = "今日產能: --"
 		stress_label.text = "壓力值: --"
 		action_label.text = "目前行為: 無員工"
+		recruit_label.text = "招募: 無"
 		return
 
 	var stress_sum := 0.0
@@ -90,11 +93,19 @@ func _refresh_ui_summary() -> void:
 	ticket_label.text = "%s | 工作中 %d/%d" % [job_generator.get_label(avg_stress), working_count, employees.size()]
 	stress_label.text = "平均壓力: %d / 100 (高壓 %d)" % [int(avg_stress), high_stress_count]
 	action_label.text = "目前行為: 多員工循環運作中"
+	recruit_label.text = _build_recruit_text()
+
+func _build_recruit_text() -> String:
+	var active_count := employees.size()
+	if not recruit_policy.can_hire(active_count):
+		return "招募: 已滿編 (%d/%d)" % [active_count, recruit_policy.employee_capacity]
+
+	var next_cost := recruit_policy.get_next_hire_cost(active_count)
+	return "招募: 下位成本 $%d (%d/%d)" % [next_cost, active_count, recruit_policy.employee_capacity]
 
 func _on_stress_changed(value: float, employee: Employee) -> void:
 	if employee_stats.has(employee):
 		employee_stats[employee].stress = value
 
 func _on_state_changed(_text: String, _employee: Employee) -> void:
-	# 狀態細節由 DebugOverlay 觀察；主 UI 顯示整體摘要
 	pass

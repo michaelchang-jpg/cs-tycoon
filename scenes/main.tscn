@@ -138,8 +138,8 @@ grow_vertical = 2
 layout_mode = 0
 offset_left = 20.0
 offset_top = 20.0
-offset_right = 260.0
-offset_bottom = 130.0
+offset_right = 310.0
+offset_bottom = 154.0
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/Control/PanelContainer"]
 layout_mode = 2
@@ -167,6 +167,10 @@ text = "壓力值: 0 / 100"
 [node name="ActionLabel" type="Label" parent="UI/Control/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "目前行為: 待命"
+
+[node name="RecruitLabel" type="Label" parent="UI/Control/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "招募: --"
 
 [node name="DebugOverlay" type="CanvasLayer" parent="."]
 script = ExtResource("9_debug")

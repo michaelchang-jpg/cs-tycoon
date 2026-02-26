@@ -46,7 +46,15 @@
 - `game_manager.gd` 改為管理 `employees[]`，支援每位員工獨立 action cooldown
 - UI 改顯示整體摘要（工作中人數、平均壓力、高壓人數）
 
+## 🔧 Additional Progress (2026-02-26, batch-4)
+- 新增 `scripts/recruitment.gd`（`RecruitmentPolicy`）
+  - 編制上限 `employee_capacity`
+  - 招募成本曲線 `base_hire_cost + hire_cost_step`
+- `game_manager.gd` 接入招募規則，UI 新增 `RecruitLabel`
+  - 即時顯示：下位招募成本 / 是否滿編
+- 本次先做「規則與顯示層」，尚未啟用按鈕或實際 hire 操作（避免影響主循環穩定）
+
 ## ⏭️ Next Actions
 1. 在你驗收完穩定版後，將 `use_navigation_agent` 設為預設 true 並調路徑參數。
-2. 多員工化（抽離 agent controller / 招募成本 / 上限管理）。
+2. 補上實際招募操作（按鈕 / 成本扣款 / 新員工啟用）。
 3. 將 Stats / JobGenerator 正式綁定工單難度與成功率。
