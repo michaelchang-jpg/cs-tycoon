@@ -116,7 +116,7 @@ func _on_state_timer_timeout() -> void:
 	_enter_state(State.IDLE)
 
 func _set_stress(value: float) -> void:
-	var next_value := clamp(value, 0.0, 100.0)
+	var next_value: float = clampf(value, 0.0, 100.0)
 	if is_equal_approx(next_value, stress):
 		return
 	stress = next_value
