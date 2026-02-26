@@ -6,7 +6,7 @@ extends Resource
 @export var hire_cost_step: int = 150
 
 func get_next_hire_cost(active_employee_count: int) -> int:
-	var index := max(active_employee_count - 1, 0)
+	var index: int = int(max(active_employee_count - 1, 0))
 	return base_hire_cost + (index * hire_cost_step)
 
 func can_hire(active_employee_count: int) -> bool:
